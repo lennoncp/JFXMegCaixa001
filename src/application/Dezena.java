@@ -35,8 +35,8 @@ public class Dezena {
 	}
 	@Override
 	public String toString() {
-		return "Dezena [dezena=" + dezena + ", contagem=" + contagem + ", fatorDeMultiplicacao=" + fatorDeMultiplicacao
-				+ "]";
+		return "Dezena: " + dezena + ", Cont: " + contagem + ", Multiplicador: " + fatorDeMultiplicacao
+				+ " ";
 	}
 	
 	

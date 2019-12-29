@@ -5,16 +5,24 @@ import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 import dao.ConcursosDAO;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class SampleController implements Initializable{
+	
+	private ConcursosDAO concursosDAO;
+	Contagem contagem = new Contagem();
 	
 	@FXML
     private Button btnLimparDezenas;
@@ -93,9 +101,54 @@ public class SampleController implements Initializable{
 
     @FXML
     private CheckBox ckb10a60;
+    
+    @FXML
+    private TableView<Concursos> tvConcursos;
+
+    @FXML
+    private TableColumn<Concursos, Integer> tcConcursosConcurso;
+
+    @FXML
+    private TableColumn<Concursos, Integer> tcConcursosD1;
+
+    @FXML
+    private TableColumn<Concursos, Integer> tcConcursosD2;
+
+    @FXML
+    private TableColumn<Concursos, Integer> tcConcursosD3;
+
+    @FXML
+    private TableColumn<Concursos, Integer> tcConcursosD4;
+
+    @FXML
+    private TableColumn<Concursos, Integer> tcConcursosD5;
+
+    @FXML
+    private TableColumn<Concursos, Integer> tcConcursosD6;
+
+    @FXML
+    private ListView<Dezena> lvConcursosContagem;
 
     @FXML
     private Button btnGerarApostas;
+    
+    @FXML
+    private TextField txfConcursosRange;
+
+    @FXML
+    private Button btnConcursosAtualizar;
+
+    @FXML
+    void atualizarContagemRange() {
+    	concursosDAO.getConcursosRange(Integer.valueOf(txfConcursosRange.getText()));
+    	contagem.contagemConcursoDezenasGeral();
+    	contagem.contagemConcursoDezenasRange();
+    	System.out.println(SLista.contagemGerarl);
+    	System.out.println("ConcursoRange: " + SLista.concursosRange);
+    	System.out.println("contgemRange: " + SLista.contagemRange);
+    	lvConcursosContagem.refresh();
+    	
+    }
 
     @FXML
     void gerarApostas() {
@@ -120,14 +173,16 @@ public class SampleController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		for(Integer i = 1; i < 61; i++) {
-    		SLista._60Dezenas.add(new Dezena(i, 0,0));
+    		SLista.contagemGerarl.add(new Dezena(i, 0,0));
+    		SLista.contagemRange.add(new Dezena(i, 0,0));
     		SLista.replicadas.add(new Dezena(i, 0,0));
     	}
 		
-		ConcursosDAO concursosDAO = new ConcursosDAO();
+		concursosDAO = new ConcursosDAO(); 
     	SLista.concursos = concursosDAO.getConcursos();
+    	SLista.concursosRange = concursosDAO.getConcursosRange(Integer.valueOf(txfConcursosRange.getText()));
     
-    	Contagem contagem = new Contagem();
+    	
     	contagem.contagemConcursoDezenasGeral();
 		
 		tcD1.setCellValueFactory(new PropertyValueFactory("d1"));
@@ -137,7 +192,21 @@ public class SampleController implements Initializable{
 		tcD5.setCellValueFactory(new PropertyValueFactory("d5"));
 		tcD6.setCellValueFactory(new PropertyValueFactory("d6"));
 		
+		tcConcursosConcurso.setCellValueFactory(new PropertyValueFactory("concurso"));
+		tcConcursosD1.setCellValueFactory(new PropertyValueFactory("d1"));
+		tcConcursosD2.setCellValueFactory(new PropertyValueFactory("d2"));
+		tcConcursosD3.setCellValueFactory(new PropertyValueFactory("d3"));
+		tcConcursosD4.setCellValueFactory(new PropertyValueFactory("d4"));
+		tcConcursosD5.setCellValueFactory(new PropertyValueFactory("d5"));
+		tcConcursosD6.setCellValueFactory(new PropertyValueFactory("d6"));
+		
 		tvDezenas.setItems(SLista.dezenas);
+		
+		SLista.sortedListDecrescente =  SLista.sortedListDecrecente(SLista.contagemGerarl);
+		
+		lvConcursosContagem.setItems(SLista.sortedListDecrescente);
+		
+		tvConcursos.setItems(SLista.concursos);
 	}
 
 }
