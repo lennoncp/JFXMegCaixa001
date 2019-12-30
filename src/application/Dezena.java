@@ -4,13 +4,13 @@ public class Dezena {
 	
 	private Integer dezena;
 	private Integer contagem;
-	private Integer fatorDeMultiplicacao;
+	
+	
 		
-	public Dezena(Integer dezena, Integer contagem, Integer fatorDeMultiplicacao) {
+	public Dezena(Integer dezena, Integer contagem) {
 		super();
 		this.dezena = dezena;
 		this.contagem = contagem;
-		this.fatorDeMultiplicacao = fatorDeMultiplicacao;
 	}
 	public Integer getDezena() {
 		return dezena;
@@ -24,22 +24,10 @@ public class Dezena {
 	public void setContagem(Integer contagem) {
 		this.contagem = contagem;
 	}
-	
-	
-	
-	public Integer getFatorDeMultiplicacao() {
-		return fatorDeMultiplicacao;
-	}
-	public void setFatorDeMultiplicacao(Integer fatorDeMultiplicacao) {
-		this.fatorDeMultiplicacao = fatorDeMultiplicacao;
-	}
 	@Override
 	public String toString() {
-		return "Dezena: " + dezena + ", Cont: " + contagem + ", Multiplicador: " + fatorDeMultiplicacao
-				+ " ";
+		return "Dezena [dezena=" + dezena + ", contagem=" + contagem + "]";
 	}
-	
-	
 	
 
 }

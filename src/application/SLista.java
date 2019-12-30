@@ -1,13 +1,8 @@
 package application;
 
-import java.sql.Timestamp;
+
 import java.time.LocalTime;
-import java.util.Calendar;
 import java.util.Random;
-
-import javax.crypto.spec.DESedeKeySpec;
-
-import org.apache.xmlbeans.impl.regex.REUtil;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,12 +11,22 @@ import javafx.collections.transformation.SortedList;
 public class SLista {
 	
 	public static Random rad = new Random(LocalTime.now().toNanoOfDay());
-	public static ObservableList<Dezena> contagemGerarl = FXCollections.observableArrayList();
-	public static ObservableList<Dezena> contagemRange = FXCollections.observableArrayList();
+	
+	public static Integer range = 100;
+	public static boolean checkRange = false;
+	
+	public static ObservableList<Dezena> dezenaContagemGeral = FXCollections.observableArrayList();
+	public static ObservableList<Dezena> dezenaContagemRange = FXCollections.observableArrayList();
+	public static ObservableList<Dezena> dezenaContagemLinhas = FXCollections.observableArrayList();
+	public static ObservableList<Dezena> dezenaContagemColunas = FXCollections.observableArrayList();
+	public static ObservableList<Dezena> mediaImpar = FXCollections.observableArrayList();
+	public static ObservableList<Dezena> quadranteContagem = FXCollections.observableArrayList();
+	
+	public static ObservableList<Dezena> gaiola = FXCollections.observableArrayList();
+
 	public static ObservableList<Dezena> sortedListDecrescente = FXCollections.observableArrayList();
 	
 	public static ObservableList<Dezenas> dezenas = FXCollections.observableArrayList();
-	public static ObservableList<Dezena> replicadas = FXCollections.observableArrayList();
 	public static ObservableList<Concursos> concursos = FXCollections.observableArrayList();
 	public static ObservableList<Concursos> concursosRange = FXCollections.observableArrayList();
 	

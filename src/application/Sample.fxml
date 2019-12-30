@@ -10,7 +10,6 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -171,8 +170,7 @@
                                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                             </rowConstraints>
                                              <children>
-                                                <CheckBox mnemonicParsing="false" text="Geral" GridPane.halignment="CENTER" />
-                                                <CheckBox mnemonicParsing="false" text="Range" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                                                <CheckBox fx:id="checkRange" mnemonicParsing="false" selected="true" text="Range" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                                                 <CheckBox mnemonicParsing="false" text="Excluir Azarões" textFill="#e40606" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                                              </children>
                                           </GridPane>
@@ -255,34 +253,58 @@
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                       </columnConstraints>
                                       <rowConstraints>
-                                        <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="50.0" />
-                                          <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="50.0" />
-                                        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="419.0" vgrow="ALWAYS" />
+                                        <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="34.0" />
+                                        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="206.0" vgrow="ALWAYS" />
+                                          <RowConstraints maxHeight="1.7976931348623157E308" minHeight="0.0" prefHeight="34.0" vgrow="ALWAYS" />
+                                          <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="198.0" vgrow="ALWAYS" />
                                       </rowConstraints>
                                        <children>
-                                          <ListView fx:id="lvConcursosContagem" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS" />
-                                          <Label text="Contagem" GridPane.halignment="CENTER" />
-                                          <GridPane GridPane.rowIndex="1">
-                                            <columnConstraints>
-                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="192.0" minWidth="10.0" prefWidth="148.0" />
-                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="107.0" minWidth="10.0" prefWidth="77.0" />
-                                            </columnConstraints>
-                                            <rowConstraints>
-                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                            </rowConstraints>
-                                             <children>
-                                                <TextField fx:id="txfConcursosRange" alignment="CENTER" prefHeight="30.0" promptText="RANGE" text="100" GridPane.halignment="CENTER">
-                                                   <GridPane.margin>
-                                                      <Insets left="2.0" right="2.0" />
-                                                   </GridPane.margin>
-                                                </TextField>
-                                                <Button fx:id="btnConcursosAtualizar" mnemonicParsing="false" onAction="#atualizarContagemRange" prefHeight="30.0" text="ATUALIZAR" GridPane.columnIndex="1" GridPane.halignment="CENTER">
-                                                   <GridPane.margin>
-                                                      <Insets left="2.0" right="2.0" />
-                                                   </GridPane.margin>
-                                                </Button>
-                                             </children>
-                                          </GridPane>
+                                          <ListView fx:id="lvConcursosContagemGeral" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
+                                          <Label text="Contagem Geral" GridPane.halignment="CENTER" />
+                                          <Label text="Contagem Range" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                                          <ListView fx:id="lvConcursosContagemRange" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="475.0" prefWidth="250.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <GridPane prefHeight="451.0" prefWidth="150.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints maxHeight="54.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
+                                        <RowConstraints maxHeight="229.0" minHeight="10.0" prefHeight="186.0" vgrow="SOMETIMES" />
+                                        <RowConstraints maxHeight="107.0" minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
+                                          <RowConstraints maxHeight="187.0" minHeight="10.0" prefHeight="187.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <Label text="Contagem Linhas" GridPane.halignment="CENTER" />
+                                          <Label text="Contagem Colunas" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                                          <ListView fx:id="lvContagemLInhas" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                                          <ListView fx:id="lvContagemColunas" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="475.0" prefWidth="250.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <GridPane prefHeight="474.0" prefWidth="113.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints maxHeight="49.0" minHeight="10.0" prefHeight="43.0" vgrow="SOMETIMES" />
+                                        <RowConstraints maxHeight="207.0" minHeight="10.0" prefHeight="207.0" vgrow="SOMETIMES" />
+                                        <RowConstraints maxHeight="107.0" minHeight="1.0" prefHeight="43.0" vgrow="SOMETIMES" />
+                                          <RowConstraints maxHeight="197.0" minHeight="10.0" prefHeight="167.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <Label text="Impar" GridPane.halignment="CENTER" />
+                                          <Label fx:id="Quadrante" text="Label" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                                          <ListView fx:id="lvConcursosContagemIMpares" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                                          <ListView fx:id="lvContagemQuadrante" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
                                        </children>
                                     </GridPane>
                                  </children>

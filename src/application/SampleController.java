@@ -22,7 +22,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class SampleController implements Initializable{
 	
 	private ConcursosDAO concursosDAO;
-	Contagem contagem = new Contagem();
 	
 	@FXML
     private Button btnLimparDezenas;
@@ -127,9 +126,6 @@ public class SampleController implements Initializable{
     private TableColumn<Concursos, Integer> tcConcursosD6;
 
     @FXML
-    private ListView<Dezena> lvConcursosContagem;
-
-    @FXML
     private Button btnGerarApostas;
     
     @FXML
@@ -137,31 +133,32 @@ public class SampleController implements Initializable{
 
     @FXML
     private Button btnConcursosAtualizar;
+    
+    @FXML
+    private ListView<Dezena> lvConcursosContagemGeral;
 
     @FXML
-    void atualizarContagemRange() {
-    	concursosDAO.getConcursosRange(Integer.valueOf(txfConcursosRange.getText()));
-    	contagem.contagemConcursoDezenasGeral();
-    	contagem.contagemConcursoDezenasRange();
-    	System.out.println(SLista.contagemGerarl);
-    	System.out.println("ConcursoRange: " + SLista.concursosRange);
-    	System.out.println("contgemRange: " + SLista.contagemRange);
-    	lvConcursosContagem.refresh();
-    	
-    }
+    private ListView<Dezena> lvConcursosContagemRange;
+
+    @FXML
+    private ListView<Dezena> lvContagemLInhas;
+
+    @FXML
+    private ListView<Dezena> lvContagemColunas;
+    
+    @FXML
+    private ListView<Dezena> lvConcursosContagemIMpares;
+    
+    @FXML
+    private CheckBox checkRange;
+    
+    @FXML
+    private ListView<Dezena> lvContagemQuadrante;
+
 
     @FXML
     void gerarApostas() {
-    	Dezenas d = new Dezenas();
-    	d.setCodigo(SLista.dezenas.size() + 1);
-    	d.setD1(SLista.replicadas.get(SLista.rad.nextInt(SLista.replicadas.size())).getDezena());
-    	d.setD2(SLista.replicadas.get(SLista.rad.nextInt(SLista.replicadas.size())).getDezena());
-    	d.setD3(SLista.replicadas.get(SLista.rad.nextInt(SLista.replicadas.size())).getDezena());
-    	d.setD4(SLista.replicadas.get(SLista.rad.nextInt(SLista.replicadas.size())).getDezena());
-    	d.setD5(SLista.replicadas.get(SLista.rad.nextInt(SLista.replicadas.size())).getDezena());
-    	d.setD6(SLista.replicadas.get(SLista.rad.nextInt(SLista.replicadas.size())).getDezena());
-    	
-    	SLista.dezenas.add(d);
+  
     	
     }
     
@@ -172,18 +169,16 @@ public class SampleController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		for(Integer i = 1; i < 61; i++) {
-    		SLista.contagemGerarl.add(new Dezena(i, 0,0));
-    		SLista.contagemRange.add(new Dezena(i, 0,0));
-    		SLista.replicadas.add(new Dezena(i, 0,0));
-    	}
 		
-		concursosDAO = new ConcursosDAO(); 
-    	SLista.concursos = concursosDAO.getConcursos();
-    	SLista.concursosRange = concursosDAO.getConcursosRange(Integer.valueOf(txfConcursosRange.getText()));
-    
-    	
-    	contagem.contagemConcursoDezenasGeral();
+		SLista.checkRange = checkRange.isSelected();
+		
+		ContagemNova cn = new ContagemNova();
+		cn.dezenasContagemGeral();
+		cn.dezenasContagemRange();
+		cn.dezenasContagemLinhas();
+		cn.dezenasContagemColunas();
+		cn.mediaImpar();
+		cn.dezenaContagemGraduante();
 		
 		tcD1.setCellValueFactory(new PropertyValueFactory("d1"));
 		tcD2.setCellValueFactory(new PropertyValueFactory("d2"));
@@ -201,10 +196,14 @@ public class SampleController implements Initializable{
 		tcConcursosD6.setCellValueFactory(new PropertyValueFactory("d6"));
 		
 		tvDezenas.setItems(SLista.dezenas);
+	
 		
-		SLista.sortedListDecrescente =  SLista.sortedListDecrecente(SLista.contagemGerarl);
-		
-		lvConcursosContagem.setItems(SLista.sortedListDecrescente);
+		lvConcursosContagemGeral.setItems(SLista.sortedListDecrecente(SLista.dezenaContagemGeral));
+		lvConcursosContagemRange.setItems(SLista.sortedListDecrecente(SLista.dezenaContagemRange));
+		lvContagemLInhas.setItems(SLista.sortedListDecrecente(SLista.dezenaContagemLinhas));
+		lvContagemColunas.setItems(SLista.sortedListDecrecente(SLista.dezenaContagemColunas));
+		lvConcursosContagemIMpares.setItems(SLista.sortedListDecrecente(SLista.mediaImpar));
+		lvContagemQuadrante.setItems(SLista.sortedListDecrecente(SLista.quadranteContagem));
 		
 		tvConcursos.setItems(SLista.concursos);
 	}

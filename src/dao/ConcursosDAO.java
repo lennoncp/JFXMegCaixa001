@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import application.Concursos;
+import application.SLista;
 import config.DBConfig;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -52,12 +53,12 @@ public class ConcursosDAO {
 		return concursos;
 	}
 	
-	public ObservableList<Concursos> getConcursosRange(int range){
+	public ObservableList<Concursos> getConcursosRange(){
 		ObservableList<Concursos> concursos = FXCollections.observableArrayList();
 		
 		con = DBConfig.getConnection();
 		
-		String q = "SELECT concurso, d1, d2, d3, d4, d5, d6 FROM concursos_mega ORDER BY concurso desc LIMIT " + range + "; ";
+		String q = "SELECT concurso, d1, d2, d3, d4, d5, d6 FROM concursos_mega ORDER BY concurso desc LIMIT " + SLista.range + "; ";
 		
 		try {
 			ps = con.prepareStatement(q);
