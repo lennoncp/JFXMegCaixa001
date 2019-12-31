@@ -42,6 +42,8 @@ public class MainContagemNovaTest {
 		System.out.println("Gaiola");
 		System.out.println(SLista.gaiola);
 		System.out.println(SLista.gaiola.size());
+		
+		
 	}
 
 }

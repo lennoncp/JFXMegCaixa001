@@ -1,8 +1,23 @@
 package application;
 
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+
+import com.itextpdf.kernel.colors.ColorConstants;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.canvas.draw.DashedLine;
+import com.itextpdf.kernel.pdf.canvas.draw.SolidLine;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.LineSeparator;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.layout.property.UnitValue;
 
 import dao.ConcursosDAO;
 import javafx.collections.FXCollections;
@@ -154,17 +169,117 @@ public class SampleController implements Initializable{
     
     @FXML
     private ListView<Dezena> lvContagemQuadrante;
+    
+    @FXML
+    private TextField txfQTDApostas;
+    
+    @FXML
+    private Button btnGerarPDF;
 
 
     @FXML
     void gerarApostas() {
   
+    	int qtdApostas = Integer.valueOf(txfQTDApostas.getText());
+    	int giros = 0;
+    	while(giros < qtdApostas) {
+    		FatorDeRepeticao fr = new FatorDeRepeticao();
+    		
+    		int impar = 0;
+    		int par = 0;
+    		for(int i = 0; i < 6; i++) {
+    			
+    			Dezena des = SLista.gaiola.get(SLista.rad.nextInt(SLista.gaiola.size()));
+    			SLista.removerDaListaDezena(des);
+    			SLista.removeNovamenteDaListaDezena(des.getDezena());
+    			fr.removeRepedidos(des.getDezena());
+    			
+    			
+    			if(des.getDezena() % 2 != 0) {
+    				impar++;
+    			}
+    			
+    				par++;
+    				
+    				if(impar>2) {
+    					SLista.removerDaListaImpar();
+    					System.out.println("GAIOLA IMPAR");
+    					System.out.println(SLista.gaiola);
+    					impar=0;
+    				}
+    				
+    				if(par>2) {
+    					SLista.removerDaListaPar();
+    					System.out.println("GAIOLA PAR");
+    					System.out.println(SLista.gaiola);
+    					par=0;
+    				}
+    				
+    			SLista.apostas.add(des);
+    		}
+    		
+    		System.out.println(SLista.apostas);
+    		
+    		List<Integer> lista = new ArrayList<Integer>();
+    		for(Dezena d : SLista.apostas) {
+    			lista.add(d.getDezena());
+    		}
+    		
+    		
+    		
+    		SLista.apostasRepositorio.add(new Apostas(SLista.apostasRepositorio.size() + 1, lista));
+    		
+    		Comparador c = new Comparador();
+    		System.out.println("VerificaLinhas: " + c.verificarConcursos(SLista.apostasRepositorio));
+    		
+    		SLista.dezenas.add(new Dezenas(lista));
+    		
+    		
+    		SLista.apostas.clear();
+    		giros++;
+    	}
     	
     }
     
     @FXML
     void limparDezenas() {
     	SLista.dezenas.clear();
+    }
+    
+    @FXML
+    void gerarPDF() {
+    	try {
+			PdfDocument pdf = new PdfDocument(new PdfWriter("src/files/apostas.pdf"));
+			Document doc = new Document(pdf);
+			
+			DashedLine customLine= new DashedLine();
+			customLine.setLineWidth(0);
+			
+			SolidLine line = new SolidLine(1F);
+			line.setColor(ColorConstants.BLACK);
+			LineSeparator separator = new LineSeparator(line);
+			
+			
+			doc.add(new Paragraph("Apostas")).setTextAlignment(TextAlignment.CENTER);
+			doc.add(separator);
+			
+			Table table = new Table(UnitValue.createPercentArray(6)).useAllAvailableWidth();       
+	        for(Apostas a : SLista.apostasRepositorio) {
+	        	for(Integer i : a.getDezenas()) {
+	        		table.addCell(""+i);
+	        	}
+	        }
+	        
+	        doc.add(table).setTextAlignment(TextAlignment.CENTER);
+			
+			doc.add(separator);
+			doc.add(new Paragraph(""+LocalTime.now())).setTextAlignment(TextAlignment.CENTER);
+			
+			doc.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
 	@Override

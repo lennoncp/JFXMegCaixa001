@@ -1,5 +1,7 @@
 package application;
 
+import java.util.List;
+
 import javafx.collections.ObservableList;
 
 public class Dezenas {
@@ -11,6 +13,15 @@ public class Dezenas {
 	private Integer d4;
 	private Integer d5;
 	private Integer d6;
+	
+	public Dezenas(List<Integer> lista) {
+		this.d1 = lista.get(0);
+		this.d2 = lista.get(1);
+		this.d3 = lista.get(2);
+		this.d4 = lista.get(3);
+		this.d5 = lista.get(4);
+		this.d6 = lista.get(5);
+	}
 	
 	public Integer getCodigo() {
 		return codigo;

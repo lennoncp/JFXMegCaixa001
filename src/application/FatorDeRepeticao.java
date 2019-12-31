@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class FatorDeRepeticao {
 	
 	public FatorDeRepeticao() {
@@ -239,6 +242,15 @@ public class FatorDeRepeticao {
 				break;
 			}
 			
+		}
+	}
+	
+	public void removeRepedidos(int d) {
+		ObservableList<Dezena> dezenas = FXCollections.observableArrayList();
+		for(int i = 0; i < SLista.gaiola.size(); i++) {
+			if(SLista.gaiola.get(i).getDezena() == d) {
+				SLista.gaiola.remove(i);
+			}
 		}
 	}
 
